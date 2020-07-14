@@ -1,0 +1,25 @@
+---
+title: GO and KEGG
+author: xh
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+gene <- read.table("all proteins.csv", header=TRUE,sep=",")
+gene <- gene$ENTREZID
+library(clusterProfiler)
+library("org.Hs.eg.db")
+ego_cc <- enrichGO(gene = gene,
+                   OrgDb = org.Hs.eg.db,
+                   ont = "CC",
+                   pAdjustMethod = "BH",
+                   minGSSize = 1,
+                   pvalueCutoff  = 0.01,
+                   qvalueCutoff = 0.01,
+                   readable = TRUE)
+write.table(as.data.frame(ego_CC@result), file = "test_CC.txt")
+barplot(ego_CC, showCategory = 15, title="EnrichmentGO_CC")
+dotplot(ego_Bp, title = "EnrichmentGO_CC_dot")
+```

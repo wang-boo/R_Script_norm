@@ -1,0 +1,25 @@
+---
+title: fdr
+author: xh
+output: pdf_document
+---
+
+设总共有m个候选基因，每个基因对应的p值从小到大排列分别是p(1),p(2),...,p(m),
+则若想控制fdr不能超过q，则只需找到最大的正整数i，使得p(i)<=(i*q)/m.然后，挑选
+对应p(1),p(2),...,p(i)的基因做为差异表达基因，这样就能从统计学上保证fdr不超过q。
+
+```{r R}
+  p <- c(0.0003, 0.0001, 0.02)
+  p.adjust(p, method="fdr",length(p))
+```
+
+```{r formula}
+  p*length(p)/rank(p)
+```
+
+```{r }
+  length(p)
+  rank(p)
+  sort(p)
+```
+
